@@ -1,0 +1,40 @@
+﻿<h1>Department images</h1>
+<p *ngIf="!departments$"><em>Loading...</em></p>
+
+<select [(ngModel)]="item.selectedDepartment" (ngModelChange)="getImagesForDepartment($event)" name="selcrap" class="department-selector">
+    <option [ngValue]="null">Vælg afdeling</option>
+    <option *ngFor="let department of departments$ |async" [ngValue]="department">{{department.name}}</option>
+</select>
+
+<div *ngIf="item.selectedDepartment">
+    <div>
+        <input #fileInput type="file" accept="image/*" />
+        <button (click)="addFile()">Upload file</button>
+    </div>
+
+
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Details</th>
+                <th>Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let image of departmentImages$ | async">
+
+                <td class="department-image">
+                    <img [src]="image.filePath" style="height: 200px; width: 200px;" />
+                </td>
+                <td>
+
+                    <pre>{{image | json}}</pre>
+                </td>
+                <td><button (click)="deleteImage(image)">Delete image</button></td>
+                <!--<td>{{ image.temperatureF }}</td>
+                <td>{{ image.summary }}</td>-->
+            </tr>
+        </tbody>
+    </table>
+</div>
